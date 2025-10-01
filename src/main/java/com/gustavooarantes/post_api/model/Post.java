@@ -38,7 +38,9 @@ public class Post {
   @Column(name = "updated_at", nullable = false)
   private LocalDateTime updatedAt;
 
-  private Post() {}
+  private Post() {
+
+  }
 
   private Post(
       Long id, String title, String content, LocalDateTime createdAt, LocalDateTime updatedAt) {
