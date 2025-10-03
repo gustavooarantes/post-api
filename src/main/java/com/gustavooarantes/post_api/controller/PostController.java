@@ -8,6 +8,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +27,21 @@ public class PostController {
 
   public PostController(PostService service) {
     this.service = service;
+  }
+
+  @Operation(summary = "List all posts", description = "Return a list of all posts. If there are no posts, return 204 (No Content).", responses = {
+      @ApiResponse(responseCode = "200", description = "Posts successfully retrieved."),
+      @ApiResponse(responseCode = "204", description = "No posts found.")
+  })
+  @GetMapping
+  public ResponseEntity<List<PostResponseDTO>> getAllPosts() {
+    List<PostResponseDTO> posts = service.getAllPosts();
+
+    if (posts.isEmpty()) {
+      return ResponseEntity.noContent().build();
+    }
+
+    return ResponseEntity.ok(posts);
   }
 
   @Operation(summary = "Search post by ID", description = "Return the details of a post, specified by its unique ID.", responses = {

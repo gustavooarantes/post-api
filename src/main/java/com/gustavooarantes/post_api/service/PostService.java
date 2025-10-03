@@ -5,6 +5,10 @@ import com.gustavooarantes.post_api.dto.PostResponseDTO;
 import com.gustavooarantes.post_api.exception.PostNotFoundException;
 import com.gustavooarantes.post_api.model.Post;
 import com.gustavooarantes.post_api.repository.PostRepository;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,6 +18,17 @@ public class PostService {
 
   public PostService(PostRepository repository) {
     this.repository = repository;
+  }
+
+  public List<PostResponseDTO> getAllPosts() {
+    return repository.findAll().stream()
+        .map(post -> new PostResponseDTO(
+            post.getId(),
+            post.getTitle(),
+            post.getContent(),
+            post.getCreatedAt(),
+            post.getUpdatedAt()))
+        .collect(Collectors.toList());
   }
 
   public PostResponseDTO getPostById(Long id) {
