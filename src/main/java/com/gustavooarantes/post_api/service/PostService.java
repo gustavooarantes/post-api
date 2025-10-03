@@ -58,4 +58,28 @@ public class PostService {
         saved.getCreatedAt(),
         saved.getUpdatedAt());
   }
+
+  public PostResponseDTO updatePost(Long id, PostRequestDTO dto) {
+    Post post = repository.findById(id)
+        .orElseThrow(() -> new PostNotFoundException(id));
+
+    post.setTitle(dto.title());
+    post.setContent(dto.content());
+
+    Post updated = repository.save(post);
+
+    return new PostResponseDTO(
+        updated.getId(),
+        updated.getTitle(),
+        updated.getContent(),
+        updated.getCreatedAt(),
+        updated.getUpdatedAt());
+  }
+
+  public void deletePost(Long id) {
+    Post post = repository.findById(id)
+        .orElseThrow(() -> new PostNotFoundException(id));
+
+    repository.delete(post);
+  }
 }
