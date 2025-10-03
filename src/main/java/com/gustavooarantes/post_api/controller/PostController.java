@@ -57,7 +57,7 @@ public class PostController {
   }
 
   @Operation(summary = "Create new post.", description = "Creates a new post.", responses = {
-      @ApiResponse(responseCode = "201", description = "Pos successfully created.")
+      @ApiResponse(responseCode = "201", description = "Post successfully created.")
   })
   @PostMapping
   public ResponseEntity<PostResponseDTO> createPost(@RequestBody PostRequestDTO dto) {
